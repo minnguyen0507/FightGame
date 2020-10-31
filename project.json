@@ -1,0 +1,8 @@
+{
+  "engine": "cocos2d-html5",
+  "packages": "packages",
+  "version": "2.4.3",
+  "name": "FightGame",
+  "id": "76738345-052e-4991-acd5-255f163126ed",
+  "isNew": false
+}
