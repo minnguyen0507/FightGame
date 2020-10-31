@@ -5,6 +5,8 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
+var cWeixinSdk = require("WeixinSDK").WeixinSDK; 
+
 cc.Class({
     extends: cc.Component,
 
@@ -32,6 +34,20 @@ cc.Class({
 
     start () {
         cc.game.addPersistRootNode(this.node);
+
+        cc.WeixinSDK = new cWeixinSdk;
+
+        var pSelf = this;
+        var sucFun = function(){
+            cc.WeixinSDK.weiXinSDkInit();
+        }
+        var failFun = function(){
+            console.log("+++++++login fail");
+        }
+
+        cc.WeixinSDK.gameLogin(sucFun,failFun);
+
+        
     },
 
     // update (dt) {},
