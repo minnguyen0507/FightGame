@@ -1,2 +1,2 @@
-# hello-world
-Hello world new project template.
+# fight game
+fight game new project template.
