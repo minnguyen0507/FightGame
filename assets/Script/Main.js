@@ -7,6 +7,8 @@
 
 var cWeixinSdk = require("WeixinSDK").WeixinSDK; 
 
+cc.gameData = require("gameData");
+
 cc.Class({
     extends: cc.Component,
 
@@ -38,7 +40,8 @@ cc.Class({
         cc.WeixinSDK = new cWeixinSdk;
 
         var pSelf = this;
-        var sucFun = function(){
+        var sucFun = function(obj){
+            cc.gameData.openid = obj.openid
             cc.WeixinSDK.weiXinSDkInit();
         }
         var failFun = function(){

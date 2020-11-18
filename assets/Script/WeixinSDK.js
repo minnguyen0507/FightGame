@@ -26,11 +26,33 @@ var WeixinSDK = cc.Class({
                     success:function(res){
                         if(res.code){                            
                             if(res != null){
-                                console.log(res);                                  
-                                sucFun();
+                                console.log(res);  
+                                var urlstr = "https://api.weixin.qq.com/sns/jscode2session?appid=wxc329ca56df0a6940";                    
+                                urlstr += "&secret=4612442698e473a363a048d15343c4d5";
+                                urlstr += "&js_code=";
+                                urlstr += res.code;
+                                urlstr += "&grant_type=authorization_code"; 
+                                
+                                wx.request({  
+                                    url: urlstr,  
+                                    data: {},  
+                                    method: 'GET',                              
+                                    success: function(res){ 
+                                        var obj={};
+                                        obj.openid=res.data.openid;  
+                                        obj.expires_in=Date.now()+res.data.expires_in;  
+                                        //console.log(obj);
+                                        sucFun(obj);
+                                        wx.setStorageSync('mygameUserData', obj);//存储openid  
+                                    },
+                                    fail:function(res){
+                                        failFun();
+                                    }  
+                                });
+                               
+                               
                             }else{
-                                failFun();
-                                console.log("+++++wx.login+++++fail");
+                                failFun();                               
                             }    
                                                
                         }

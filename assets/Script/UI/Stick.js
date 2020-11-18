@@ -73,6 +73,18 @@ cc.Class({
         this.m_fAngle = angle;
         cc.log("this.m_fAngle move+++   " + this.m_fAngle);
         this.updateArrow();
+
+        //  if(this.m_pMyBojView != null)
+        // {
+        //     var eState = this.m_pMyBojView.m_objlogic.m_objState;
+        //     if(eState != eObjState.eObjWalk)
+        //     {
+        //         var pMSg = cc.MsgMgr.CreateMsgByID(10004);
+        //         pMSg.objLogicID = this.m_pMyBojView.m_iObjId;
+        //         pMSg.ObjState = eObjState.eObjWalk;       
+        //         cc.MsgMgr.sendMsgToServer(10004,pMSg);
+        //     }           
+        // }      
          
 
     },
@@ -84,7 +96,12 @@ cc.Class({
         this.pStickCenter.stopAllActions();
         this.pStickCenter.runAction(cc.moveTo(0.08, this.stickBGPosition));
         //this.m_fAngle = 0.0;
-        this.m_pArrow.active = false;      
+        this.m_pArrow.active = false;    
+
+        //  var pMSg = cc.MsgMgr.CreateMsgByID(10004);
+        //  pMSg.objLogicID = this.m_pMyBojView.m_iObjId;
+        //  pMSg.ObjState = eObjState.eObjStand;       
+        //  cc.MsgMgr.sendMsgToServer(10004,pMSg);  
 
        
 
@@ -111,7 +128,12 @@ cc.Class({
         var nowAngle = this.m_fAngle.toFixed(2);
         if(this.m_fOldAngle != nowAngle)
         {
-            this.m_fOldAngle = nowAngle;            
+            this.m_fOldAngle = nowAngle;  
+
+            //  var pMSg = cc.MsgMgr.CreateMsgByID(10003);
+            // pMSg.objLogicID = this.m_pMyBojView.m_iObjId;
+            // pMSg.fDir = this.m_fOldAngle;       
+            // cc.MsgMgr.sendMsgToServer(10003,pMSg);          
         }      
     },
 });
