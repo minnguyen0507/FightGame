@@ -1,20 +1,3 @@
-const gameInfo = {
-    gameId: 'obg-kd9fmh4m',
-    secretKey: '893504c8ce8709776714d05de48c8d59b8efcb18',
-    openId: '10000001',
-};
-
-const config = {
-    url: 'kd9fmh4m.wxlagame.com',
-    reconnectMaxTimes: 5,
-    reconnectInterval: 1000,
-    resendInterval: 1000,
-    resendTimeout: 10000,
-};
-
-
-
-
 var WeixinSDK = cc.Class({
 
 
@@ -28,7 +11,7 @@ var WeixinSDK = cc.Class({
                             if(res != null){
                                 console.log(res);  
                                 var urlstr = "https://api.weixin.qq.com/sns/jscode2session?appid=wxc329ca56df0a6940";                    
-                                urlstr += "&secret=4612442698e473a363a048d15343c4d5";
+                                urlstr += "&secret=ef37efc9a6e24500702d075c37472aa2";
                                 urlstr += "&js_code=";
                                 urlstr += res.code;
                                 urlstr += "&grant_type=authorization_code"; 
@@ -61,12 +44,28 @@ var WeixinSDK = cc.Class({
             }
         }else{
             //其他登陆默认成功
-            sucFun();
+            var obj = {};
+            obj.openid = 0;
+            sucFun(obj);
         }
     },
 
     weiXinSDkInit(){
         // 实例化 Room 对象
+        const gameInfo = {
+            gameId: 'obg-kd9fmh4m',
+            secretKey: '893504c8ce8709776714d05de48c8d59b8efcb18',
+            openId: cc.gameData.openid,
+        };
+
+        const config = {
+            url: 'kd9fmh4m.wxlagame.com',
+            reconnectMaxTimes: 5,
+            reconnectInterval: 1000,
+            resendInterval: 1000,
+            resendTimeout: 10000,
+        };
+
         const room = new MGOBE.Room();
         MGOBE.Listener.init(gameInfo, config, event => {
         if (event.code === 0) {
