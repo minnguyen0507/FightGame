@@ -1,37 +1,28 @@
 var WeixinSDK = cc.Class({
 
+    properties: {
+        roomMgr:null,
+        cloudMgr:null,
+       
+    },
+
+    getRoomMgr(){
+        return this.roomMgr;
+    },
 
     gameLogin(sucFun,failFun){
         if(typeof(wx) != "undefined"){ 
             if(typeof(wx.login)=="function"){
                 var pself = this;
+                console.log("+++++++++++++gameLogin+++++++++++++11")
                 wx.login({
                     success:function(res){
                         if(res.code){                            
                             if(res != null){
-                                console.log(res);  
-                                var urlstr = "https://api.weixin.qq.com/sns/jscode2session?appid=wxc329ca56df0a6940";                    
-                                urlstr += "&secret=ef37efc9a6e24500702d075c37472aa2";
-                                urlstr += "&js_code=";
-                                urlstr += res.code;
-                                urlstr += "&grant_type=authorization_code"; 
+                                console.log(res); 
+                                 pself.WeixinCloudGetOpenId()
                                 
-                                wx.request({  
-                                    url: urlstr,  
-                                    data: {},  
-                                    method: 'GET',                              
-                                    success: function(res){ 
-                                        var obj={};
-                                        obj.openid=res.data.openid;  
-                                        obj.expires_in=Date.now()+res.data.expires_in;  
-                                        //console.log(obj);
-                                        sucFun(obj);
-                                        wx.setStorageSync('mygameUserData', obj);//存储openid  
-                                    },
-                                    fail:function(res){
-                                        failFun();
-                                    }  
-                                });
+                                
                                
                                
                             }else{
@@ -44,6 +35,8 @@ var WeixinSDK = cc.Class({
             }
         }else{
             //其他登陆默认成功
+
+            this.WeixinCloudGetOpenId();
             var obj = {};
             obj.openid = 0;
             sucFun(obj);
@@ -66,26 +59,50 @@ var WeixinSDK = cc.Class({
             resendTimeout: 10000,
         };
 
-        const room = new MGOBE.Room();
+        
         MGOBE.Listener.init(gameInfo, config, event => {
-        if (event.code === 0) {
+        if (event.code === MGOBE.ErrCode.EC_OK) {
             console.log("初始化成功");
+            this.roomMgr = new MGOBE.Room();
+            MGOBE.Listener.add(this.roomMgr);
             // 初始化成功之后才能调用其他 API
             // 查询玩家自己的房间
-            room.getRoomDetail(event => {
-                    if (event.code !== 0 && event.code !== 20011) {
-                        return console.log(event);
-                    }
-                    console.log("查询成功");
-                    if (event.code === 20011) {
-                        console.log("玩家不在房间内");
-                    } else {
-                        // 玩家已在房间内
-                        console.log("房间名", event.data.roomInfo.name);
-                    }
-                });
+            // room.getRoomDetail(event => {
+            //         if (event.code !== 0 && event.code !== 20011) {
+            //             return console.log(event);
+            //         }
+            //         console.log("查询成功");
+            //         if (event.code === 20011) {
+            //             console.log("玩家不在房间内");
+            //         } else {
+            //             // 玩家已在房间内
+            //             console.log("房间名", event.data.roomInfo.name);
+            //         }
+            //     });
             }
         });
+    },
+
+    WeixinCloudGetOpenId(){
+        // 初始化方法，从配置中读取参数
+        console.log("+++wx.cloud.init+++2222");
+        wx.cloud.init({
+            env: 'testgame-2cf6a5',
+            traceUser:true,          
+        });
+
+        wx.cloud.callFunction(
+            {
+                // 要调用的云函数名称
+                name: 'GameLogin',
+                // 传递给云函数的event参数
+                data: {                        
+                }
+            }).then(res=>{
+                 console.log("+++wx.cloud.init+++33333");
+                console.log(res)
+            });
+       
     },
 
     
