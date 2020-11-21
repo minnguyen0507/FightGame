@@ -20,7 +20,7 @@ var WeixinSDK = cc.Class({
                         if(res.code){                            
                             if(res != null){
                                 console.log(res); 
-                                 pself.WeixinCloudGetOpenId()
+                                 pself.WeixinCloudGetOpenId(sucFun)
                                 
                                 
                                
@@ -36,7 +36,7 @@ var WeixinSDK = cc.Class({
         }else{
             //其他登陆默认成功
 
-            this.WeixinCloudGetOpenId();
+           
             var obj = {};
             obj.openid = 0;
             sucFun(obj);
@@ -64,26 +64,12 @@ var WeixinSDK = cc.Class({
         if (event.code === MGOBE.ErrCode.EC_OK) {
             console.log("初始化成功");
             this.roomMgr = new MGOBE.Room();
-            MGOBE.Listener.add(this.roomMgr);
-            // 初始化成功之后才能调用其他 API
-            // 查询玩家自己的房间
-            // room.getRoomDetail(event => {
-            //         if (event.code !== 0 && event.code !== 20011) {
-            //             return console.log(event);
-            //         }
-            //         console.log("查询成功");
-            //         if (event.code === 20011) {
-            //             console.log("玩家不在房间内");
-            //         } else {
-            //             // 玩家已在房间内
-            //             console.log("房间名", event.data.roomInfo.name);
-            //         }
-            //     });
+            MGOBE.Listener.add(this.roomMgr);            
             }
         });
     },
 
-    WeixinCloudGetOpenId(){
+    WeixinCloudGetOpenId(sucFun){
         // 初始化方法，从配置中读取参数
         console.log("+++wx.cloud.init+++2222");
         wx.cloud.init({
@@ -100,7 +86,10 @@ var WeixinSDK = cc.Class({
                 }
             }).then(res=>{
                  console.log("+++wx.cloud.init+++33333");
-                console.log(res)
+                 console.log(res)
+                 var obj = {};
+                 obj.openid = res.result;
+                 sucFun(obj);
             });
        
     },

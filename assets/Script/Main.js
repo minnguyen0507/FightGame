@@ -22,9 +22,9 @@ cc.Class({
         var pSelf = this;
         var sucFun = function(obj){
             cc.gameData.openid = obj.openid
-            cc.WeixinSDK.weiXinSDkInit();
 
-            
+            console.log(cc.gameData)
+            cc.WeixinSDK.weiXinSDkInit();            
         }
         var failFun = function(){
             console.log("+++++++login fail");
