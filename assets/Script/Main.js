@@ -17,6 +17,11 @@ cc.Class({
     start () {
         cc.game.addPersistRootNode(this.node);
 
+        if(cc.FunctionHelp == null)
+        {
+            cc.FunctionHelp = require("HelpFun");
+        }
+
         cc.WeixinSDK = new cWeixinSdk;
 
         var pSelf = this;
@@ -24,7 +29,8 @@ cc.Class({
             cc.gameData.openid = obj.openid
 
             console.log(cc.gameData)
-            cc.WeixinSDK.weiXinSDkInit();            
+            cc.WeixinSDK.weiXinSDkInit();  
+            cc.WeixinSDK.WeixinGetUserInfo();          
         }
         var failFun = function(){
             console.log("+++++++login fail");

@@ -6,9 +6,31 @@ cc.Class({
     },
 
     // use this for initialization
-    onLoad: function () {        
+    onLoad: function () {      
+        this.matchNode =  this.node.getChildByName("MatchBtn"); 
 
     },
+
+
+    setBeginMatch(){
+
+        var btnlabel = cc.find("Background/Label",this.matchNode).getComponent(cc.Label);
+        this.count = 0;
+        this.callback = function () {
+            if (this.count === 100) {                
+                btnlabel.unschedule(this.callback);
+            }
+           
+            this.count++;
+            var strTemp = cc.FunctionHelp.getTimeString(this.count);
+            strTemp = "匹配..." + "("+strTemp+")";
+            btnlabel.string = strTemp;
+        }
+        btnlabel.schedule(this.callback, 1);
+        btnlabel.string = "匹配..."
+    },
+
+
 
     onClickMatchBtn:function(Btn){
         console.log("click match Btn");
@@ -17,10 +39,16 @@ cc.Class({
             return;
         }
 
+        if (cc.gameData.weixinUserInfo === null){
+            return;
+        }
+
+        var userinfo = cc.gameData.weixinUserInfo;
+
         const playerInfo = {
-                name: "Tom",
+                name: userinfo.nickName,
                 customPlayerStatus: 1,
-                customProfile: "https://xxx.com/icon.png",
+                customProfile: userinfo.avatarUrl,
                 matchAttributes: [{
                     name: "skill1",
                     value: 99,
@@ -29,13 +57,15 @@ cc.Class({
 
         const matchPlayersPara = {
             playerInfo,
-            matchCode: "play-xxx",
+            matchCode: "match-4jee1g3a",
         };
-
+        this.setBeginMatch();
         // 发起匹配
         roomMgr.matchPlayers(matchPlayersPara, event => {
             if (event.code === 0) {
                 console.log("请求成功");
+                console.log(event);
+                roomMgr.initRoom(event.data.roomInfo);
             } else {
                 console.log("请求失败", event.code);
             }
@@ -44,9 +74,11 @@ cc.Class({
         // 监听匹配结果
         roomMgr.onMatch = (event) => {
 
+            console.log("监听匹配回调。。。。");
+            console.log(event);
             if (event.data.errCode === MGOBE.ErrCode.EC_OK) {
                 console.log("组队匹配成功");
-                roomMgr.initRoom(event.data.roomInfo);
+                //roomMgr.initRoom(event.data.roomInfo);
                 return;
             }
             // 匹配失败

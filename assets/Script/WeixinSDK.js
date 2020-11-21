@@ -20,11 +20,7 @@ var WeixinSDK = cc.Class({
                         if(res.code){                            
                             if(res != null){
                                 console.log(res); 
-                                 pself.WeixinCloudGetOpenId(sucFun)
-                                
-                                
-                               
-                               
+                                 pself.WeixinCloudGetOpenId(sucFun)                         
                             }else{
                                 failFun();                               
                             }    
@@ -90,8 +86,36 @@ var WeixinSDK = cc.Class({
                  var obj = {};
                  obj.openid = res.result;
                  sucFun(obj);
+            });       
+    },
+
+    WeixinGetUserInfo(){
+            wx.getSetting({
+                success(res) {
+                    if (!res.authSetting['scope.userInfo']) {
+                        wx.authorize({
+                                scope: 'scope.userInfo',
+                                success () {
+                                    console.log("userInfo  authorize  success")
+                                    wx.getUserInfo({
+                                        success(res) {                                         
+                                            console.log(res);
+                                            cc.gameData.weixinUserInfo = res.userInfo;
+                                        }
+                                    });                           
+                                }
+                            });
+                        }else{
+                            console.log("userInfo no authorize")
+                             wx.getUserInfo({
+                                success(res) {                                      
+                                    console.log(res);
+                                    cc.gameData.weixinUserInfo = res.userInfo;
+                                }
+                            }); 
+                        }
+                    }
             });
-       
     },
 
     
