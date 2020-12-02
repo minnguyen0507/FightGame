@@ -16,17 +16,18 @@ cc.Class({
 
         var btnlabel = cc.find("Background/Label",this.matchNode).getComponent(cc.Label);
         this.count = 0;
-        this.callback = function () {
-            if (this.count === 100) {                
-                btnlabel.unschedule(this.callback);
-            }
-           
-            this.count++;
-            var strTemp = cc.FunctionHelp.getTimeString(this.count);
+
+        var pSelf = this;
+        var callback = function () {
+            if (pSelf.count === 100) {                
+                btnlabel.unschedule(callback);
+            }           
+            pSelf.count++;
+            var strTemp = cc.FunctionHelp.getTimeString(pSelf.count);
             strTemp = "匹配..." + "("+strTemp+")";
             btnlabel.string = strTemp;
         }
-        btnlabel.schedule(this.callback, 1);
+        btnlabel.schedule(callback, 1);
         btnlabel.string = "匹配..."
     },
 
