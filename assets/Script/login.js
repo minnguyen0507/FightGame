@@ -72,6 +72,8 @@ cc.Class({
                 console.log("请求成功");
                 console.log(event);
                 roomMgr.initRoom(event.data.roomInfo);
+               
+                cc.director.loadScene("room");
             } else {
                 console.log("请求失败", event.code);
             }
