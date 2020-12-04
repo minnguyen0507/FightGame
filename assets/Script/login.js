@@ -100,11 +100,37 @@ cc.Class({
             return;
         }
         console.log(msgdata)
-       
+        pSelf.setHeadIcon(msgdata.avatarUrl,msgdata.nickName);       
     },  
 
     // called every frame
-    update: function (dt) {
+    // update: function (dt) {
 
+    // },
+
+    setHeadIcon(headStr,playerName){
+        var pSelf = this
+        cc.resources.load("UiPrefab/HeadIcon", function (err, prefab) {
+            var newNode = cc.instantiate(prefab);
+            pSelf.headIconNode.addChild(newNode);
+            var pHeadIcon = newNode.getChildByName("Icon")
+            console.log(pHeadIcon)  
+            var tempsprite = pHeadIcon.getComponent(cc.Sprite);
+            console.log(tempsprite)
+            cc.assetManager.loadRemote(headStr, {ext: '.png'}, (err, texture) =>
+            {   
+                console.log(err)  
+                console.log(texture)               
+                if(err == null)
+                {
+                    var spriteFrame = new cc.SpriteFrame(texture);
+                    tempsprite.spriteFrame = spriteFrame
+                }                            
+            });             
+        });
     },
+
+
+
+
 });
