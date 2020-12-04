@@ -2,12 +2,16 @@
 var cWeixinSdk = require("WeixinSDK").WeixinSDK; 
 
 cc.gameData = require("gameData");
+var ClientGuiCmd = require("ClientGuiCmd").ClientGuiCmd;
 
 cc.Class({
     extends: cc.Component,
 
     properties: {
        
+    },
+    editor: {
+        executionOrder: -1
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -24,13 +28,27 @@ cc.Class({
 
         cc.WeixinSDK = new cWeixinSdk;
 
+        if(cc.ClientGuiCmd === undefined){
+            cc.ClientGuiCmd = new ClientGuiCmd;
+            cc.ClientGuiCmd.initClientGuiCmd();
+        }
+
         var pSelf = this;
         var sucFun = function(obj){
             cc.gameData.openid = obj.openid
 
             console.log(cc.gameData)
             cc.WeixinSDK.weiXinSDkInit();  
-            cc.WeixinSDK.WeixinGetUserInfo();          
+
+            var getUserInfoFun = function(){
+                var msgCmd = {};
+                msgCmd.UiMsgName = 'onLoginSuccess';
+                msgCmd.akMsgParame = cc.gameData.weixinUserInfo;  
+                cc.ClientGuiCmd.PushClientGuiMsg(msgCmd);   
+            }
+            cc.WeixinSDK.WeixinGetUserInfo(getUserInfoFun); 
+
+                       
         }
         var failFun = function(){
             console.log("+++++++login fail");
@@ -41,5 +59,9 @@ cc.Class({
         
     },
 
-    // update (dt) {},
+     update (dt) {
+        if(cc.ClientGuiCmd !== undefined){
+            cc.ClientGuiCmd.updateClientGuiCmd(dt);
+        }
+     },
 });

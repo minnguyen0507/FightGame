@@ -8,7 +8,12 @@ cc.Class({
     // use this for initialization
     onLoad: function () {      
         this.matchNode =  this.node.getChildByName("MatchBtn"); 
+        this.headIconNode = this.node.getChildByName("HeadIconNode"); 
+        
+    },
 
+    start (){
+         cc.ClientGuiCmd.registerClientGuiMsg("onLoginSuccess",this.onLoginSuccessCall,this);
     },
 
 
@@ -24,7 +29,7 @@ cc.Class({
             }           
             pSelf.count++;
             var strTemp = cc.FunctionHelp.getTimeString(pSelf.count);
-            strTemp = "匹配..." + "("+strTemp+")";
+            strTemp = "匹配" + "("+strTemp+")";
             btnlabel.string = strTemp;
         }
         btnlabel.schedule(callback, 1);
@@ -87,6 +92,16 @@ cc.Class({
         };
 
     }, 
+
+    onLoginSuccessCall(msgdata,pSelf){
+
+        cc.log("+++++++onLoginSuccessCall");
+        if(pSelf == null){
+            return;
+        }
+        console.log(msgdata)
+       
+    },  
 
     // called every frame
     update: function (dt) {

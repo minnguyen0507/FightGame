@@ -89,7 +89,7 @@ var WeixinSDK = cc.Class({
             });       
     },
 
-    WeixinGetUserInfo(){
+    WeixinGetUserInfo(sucFun){
             wx.getSetting({
                 success(res) {
                     if (!res.authSetting['scope.userInfo']) {
@@ -101,6 +101,7 @@ var WeixinSDK = cc.Class({
                                         success(res) {                                         
                                             console.log(res);
                                             cc.gameData.weixinUserInfo = res.userInfo;
+                                            sucFun()
                                         }
                                     });                           
                                 }
@@ -111,6 +112,7 @@ var WeixinSDK = cc.Class({
                                 success(res) {                                      
                                     console.log(res);
                                     cc.gameData.weixinUserInfo = res.userInfo;
+                                    sucFun()
                                 }
                             }); 
                         }
