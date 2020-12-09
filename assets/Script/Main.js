@@ -63,5 +63,8 @@ cc.Class({
         if(cc.ClientGuiCmd !== undefined){
             cc.ClientGuiCmd.updateClientGuiCmd(dt);
         }
-     },
+     },   
+
+
+
 });

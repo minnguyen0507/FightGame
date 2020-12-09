@@ -58,9 +58,11 @@ var WeixinSDK = cc.Class({
         
         MGOBE.Listener.init(gameInfo, config, event => {
         if (event.code === MGOBE.ErrCode.EC_OK) {
-            console.log("初始化成功");
-            this.roomMgr = new MGOBE.Room();
-            MGOBE.Listener.add(this.roomMgr);            
+                console.log("初始化成功");
+                this.roomMgr = new MGOBE.Room();
+                MGOBE.Listener.add(this.roomMgr);   
+                // 监听匹配结果
+                this.roomMgr.onMatch = (event) =>this.onMatch(event); 
             }
         });
     },
@@ -120,9 +122,15 @@ var WeixinSDK = cc.Class({
             });
     },
 
-    
-
-
+    onMatch(event){
+        console.log("监听匹配回调。。。。");
+        console.log(event);
+        if (event.data.errCode === MGOBE.ErrCode.EC_OK) {
+            console.log("组队匹配成功");
+            //roomMgr.initRoom(event.data.roomInfo);
+            return;
+        }
+    },
 });
 
 module.exports = {WeixinSDK};

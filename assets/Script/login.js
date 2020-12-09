@@ -71,27 +71,14 @@ cc.Class({
             if (event.code === 0) {
                 console.log("请求成功");
                 console.log(event);
-                roomMgr.initRoom(event.data.roomInfo);
-               
+                roomMgr.initRoom(event.data.roomInfo);               
                 cc.director.loadScene("room");
             } else {
                 console.log("请求失败", event.code);
             }
         });
 
-        // 监听匹配结果
-        roomMgr.onMatch = (event) => {
-
-            console.log("监听匹配回调。。。。");
-            console.log(event);
-            if (event.data.errCode === MGOBE.ErrCode.EC_OK) {
-                console.log("组队匹配成功");
-                //roomMgr.initRoom(event.data.roomInfo);
-                return;
-            }
-            // 匹配失败
-            // ...
-        };
+       
 
     }, 
 
@@ -100,8 +87,7 @@ cc.Class({
         cc.log("+++++++onLoginSuccessCall");
         if(pSelf == null){
             return;
-        }
-        console.log(msgdata)
+        }        
         pSelf.setHeadIcon(msgdata.avatarUrl,msgdata.nickName);       
     },  
 
@@ -110,26 +96,8 @@ cc.Class({
 
     // },
 
-    setHeadIcon(headStr,playerName){
-        var pSelf = this
-        cc.resources.load("UiPrefab/HeadIcon", function (err, prefab) {
-            var newNode = cc.instantiate(prefab);
-            pSelf.headIconNode.addChild(newNode);
-            var pHeadIcon = newNode.getChildByName("Icon")
-            console.log(pHeadIcon)  
-            var tempsprite = pHeadIcon.getComponent(cc.Sprite);
-            console.log(tempsprite)
-            cc.assetManager.loadRemote(headStr, {ext: '.png'}, (err, texture) =>
-            {   
-                console.log(err)  
-                console.log(texture)               
-                if(err == null)
-                {
-                    var spriteFrame = new cc.SpriteFrame(texture);
-                    tempsprite.spriteFrame = spriteFrame
-                }                            
-            });             
-        });
+    setHeadIcon(headStr,playerName){       
+        cc.FunctionHelp.setHeadIcon(this.headIconNode,headStr);        
     },
 
 
