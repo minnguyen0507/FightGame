@@ -19,6 +19,8 @@ cc.Class({
     // onLoad () {},
 
     start () {
+
+        console.log("main++++++++++++++++++start")
         cc.game.addPersistRootNode(this.node);
 
         if(cc.FunctionHelp == null)
@@ -41,12 +43,16 @@ cc.Class({
             cc.WeixinSDK.weiXinSDkInit();  
 
             var getUserInfoFun = function(){
-                var msgCmd = {};
-                msgCmd.UiMsgName = 'onLoginSuccess';
-                msgCmd.akMsgParame = cc.gameData.weixinUserInfo;  
-                cc.ClientGuiCmd.PushClientGuiMsg(msgCmd);   
+                // var msgCmd = {};
+                // msgCmd.UiMsgName = 'onLoginSuccess';
+                // msgCmd.akMsgParame = cc.gameData.weixinUserInfo;  
+                // cc.ClientGuiCmd.PushClientGuiMsg(msgCmd); 
+
+                 cc.director.loadScene("login");  
             }
             cc.WeixinSDK.WeixinGetUserInfo(getUserInfoFun); 
+
+           
 
                        
         }

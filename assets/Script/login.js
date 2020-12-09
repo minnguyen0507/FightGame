@@ -13,7 +13,10 @@ cc.Class({
     },
 
     start (){
-         cc.ClientGuiCmd.registerClientGuiMsg("onLoginSuccess",this.onLoginSuccessCall,this);
+         //cc.ClientGuiCmd.registerClientGuiMsg("onLoginSuccess",this.onLoginSuccessCall,this);
+
+         var msgdata = cc.gameData.weixinUserInfo;
+         this.setHeadIcon(msgdata.avatarUrl,msgdata.nickName); 
     },
 
 
@@ -100,7 +103,9 @@ cc.Class({
         cc.FunctionHelp.setHeadIcon(this.headIconNode,headStr);        
     },
 
-
-
+    onDestroy(){
+        console.log("login+++++++++++++++onDestroy")
+      //  cc.ClientGuiCmd.registerClientGuiMsg("onLoginSuccess");
+    },
 
 });

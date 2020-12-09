@@ -9,14 +9,37 @@ cc.Class({
     // onLoad () {},
 
     start () {
-        var roomMgr = cc.WeixinSDK.getRoomMgr();
-        var roomInfo = roomMgr.roomInfo;
-        this.roomInfo = roomInfo;
+       
 
         this.headRootLayer = this.node.getChildByName("HeadLayout"); 
-        console.log(roomInfo);
+        this.startTimeGo = cc.find("startGame/TimeGo",this.node).getComponent(cc.Label); 
 
-        this.initRoomUi();
+        this.count = 0;      
+        this.schedule(this.timeCallBack, 1);
+        this.startTimeGo.string = "20";
+        if (cc.WeixinSDK != null){
+            var roomMgr = cc.WeixinSDK.getRoomMgr();
+            if (roomMgr != null){
+                var roomInfo = roomMgr.roomInfo;
+                this.roomInfo = roomInfo;
+                this.initRoomUi();
+            }
+        }       
+
+        var cancelBtn = this.node.getChildByName("StartButton"); 
+        cancelBtn.on('click', this.cancelBtnClick, this);
+    },
+
+    timeCallBack(){
+        var pSelf = this;
+        if (pSelf.count === 21) {                
+            this.unschedule(this.timeCallBack);
+             cc.director.loadScene("fight");
+             
+        }           
+        pSelf.count++;   
+        var  strTemp = 21 -  pSelf.count;      
+        this.startTimeGo.string = strTemp;
     },
 
     initRoomUi(){
@@ -35,15 +58,12 @@ cc.Class({
             else if(teamIndex === "1"){  
                 akCamp2Players[akCamp2Players.length] = tempPlayer;  
             }
-        } 
-
-        console.log(akCamp1Players)
+        }    
 
         for(var key in akCamp1Players) {
             var tempPlayer = akCamp1Players[key];
             var tempIndex = Number(key) + 1;
-            var headNodeStr = "Camp1HeadNode" + tempIndex;
-            console.log(headNodeStr);
+            var headNodeStr = "Camp1HeadNode" + tempIndex;        
             var headNode = pSelf.headRootLayer.getChildByName(headNodeStr);
             
             cc.FunctionHelp.setHeadIcon(headNode,tempPlayer.customProfile);    
@@ -59,7 +79,25 @@ cc.Class({
         }
     },
 
+    cancelBtnClick(pram){
 
+        console.log("++++++++cancelBtnClick+++++++")
+        var roomMgr = cc.WeixinSDK.getRoomMgr();
+        if (roomMgr === null ){
+            return;
+        }
+        const cancelMatchPara = {
+            matchType: MGOBE.ENUM.MatchType.PLAYER_COMPLEX,
+        };
 
-    // update (dt) {},
+        roomMgr.cancelPlayerMatch(cancelMatchPara, event =>{
+            console.log("取消匹配。。。。。。")
+            console.log(event)
+            cc.director.loadScene("login");
+        });
+    },
+
+    onDestroy(){
+        this.unschedule(this.timeCallBack);
+    },
 });

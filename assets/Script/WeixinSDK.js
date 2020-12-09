@@ -63,6 +63,7 @@ var WeixinSDK = cc.Class({
                 MGOBE.Listener.add(this.roomMgr);   
                 // 监听匹配结果
                 this.roomMgr.onMatch = (event) =>this.onMatch(event); 
+                this.roomMgr.onCancelMatch = (event) => this.onCancelMatch(event);
             }
         });
     },
@@ -131,6 +132,12 @@ var WeixinSDK = cc.Class({
             return;
         }
     },
+
+    onCancelMatch(event){
+         console.log("监听取消匹配回调。。。。");
+
+    },
+
 });
 
 module.exports = {WeixinSDK};
