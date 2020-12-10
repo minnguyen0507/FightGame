@@ -64,6 +64,11 @@ var WeixinSDK = cc.Class({
                 // 监听匹配结果
                 this.roomMgr.onMatch = (event) =>this.onMatch(event); 
                 this.roomMgr.onCancelMatch = (event) => this.onCancelMatch(event);
+
+                this.roomMgr.onStartFrameSync = (event) => this.onStartFrameSync(event);
+                this.roomMgr.onStopFrameSync = (event) => this.onStopFrameSync(event);
+                this.roomMgr.onRecvFrame = (event) => this.onRecvFrame(event);                
+                
             }
         });
     },
@@ -135,8 +140,26 @@ var WeixinSDK = cc.Class({
 
     onCancelMatch(event){
          console.log("监听取消匹配回调。。。。");
+         console.log(event);
 
     },
+
+    onStartFrameSync(event){
+        console.log("监听帧同步开始。。。。");
+        console.log(event)
+    },
+
+    onRecvFrame(event){
+       // console.log("监听帧消息。。。。");
+       // console.log(event)
+    }, 
+
+    onStopFrameSync(event){
+        console.log("监听帧同步结束。。。。");
+        console.log(event)
+    },
+
+
 
 });
 

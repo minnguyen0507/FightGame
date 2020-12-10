@@ -20,6 +20,7 @@ cc.Class({
         if (cc.WeixinSDK != null){
             var roomMgr = cc.WeixinSDK.getRoomMgr();
             if (roomMgr != null){
+                this.roomMgr = roomMgr;
                 var roomInfo = roomMgr.roomInfo;
                 this.roomInfo = roomInfo;
                 this.initRoomUi();
@@ -34,12 +35,21 @@ cc.Class({
         var pSelf = this;
         if (pSelf.count === 21) {                
             this.unschedule(this.timeCallBack);
-             cc.director.loadScene("fight");
-             
+            cc.director.loadScene("fight");
+            //开始同步帧
+            pSelf.roomMgr.startFrameSync({}, (event) =>pSelf.onStartFrameSync(event));
         }           
         pSelf.count++;   
         var  strTemp = 21 -  pSelf.count;      
         this.startTimeGo.string = strTemp;
+    },
+
+    onStartFrameSync(event){
+        console.log("+++++++++onStartFrameSync++++++++++++");
+        console.log(event);
+        if (event.code === 0) {
+            console.log("开始帧同步成功");
+        }
     },
 
     initRoomUi(){
