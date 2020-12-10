@@ -4,6 +4,8 @@ var cWeixinSdk = require("WeixinSDK").WeixinSDK;
 cc.gameData = require("gameData");
 var ClientGuiCmd = require("ClientGuiCmd").ClientGuiCmd;
 
+var cClientServerMsg = require("ClientServerMsg").cClientServerMsg
+
 cc.Class({
     extends: cc.Component,
 
@@ -34,6 +36,11 @@ cc.Class({
             cc.ClientGuiCmd = new ClientGuiCmd;
             cc.ClientGuiCmd.initClientGuiCmd();
         }
+
+        if(cc.ClientServerMsg === undefined){
+            cc.ClientServerMsg = new cClientServerMsg;
+            cc.ClientServerMsg.init();
+        } 
 
         var pSelf = this;
         var sucFun = function(obj){
