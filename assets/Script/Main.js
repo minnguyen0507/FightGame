@@ -4,7 +4,9 @@ var cWeixinSdk = require("WeixinSDK").WeixinSDK;
 cc.gameData = require("gameData");
 var ClientGuiCmd = require("ClientGuiCmd").ClientGuiCmd;
 
-var cClientServerMsg = require("ClientServerMsg").cClientServerMsg
+var cClientServerMsg = require("ClientServerMsg").cClientServerMsg;
+cc.eMsgId = require("ClientServerMsg").eMsgId
+cc.eEntityState = require("EnumDef").eEntityState;
 
 cc.Class({
     extends: cc.Component,
@@ -42,6 +44,11 @@ cc.Class({
             cc.ClientServerMsg.init();
         } 
 
+        if(cc.gameEnumDef === undefined ){
+            cc.gameEnumDef = {};
+            cc.gameEnumDef.eEntityType = require("EnumDef").eEntityType;            
+        }
+
         var pSelf = this;
         var sucFun = function(obj){
             cc.gameData.openid = obj.openid
@@ -50,12 +57,8 @@ cc.Class({
             cc.WeixinSDK.weiXinSDkInit();  
 
             var getUserInfoFun = function(){
-                // var msgCmd = {};
-                // msgCmd.UiMsgName = 'onLoginSuccess';
-                // msgCmd.akMsgParame = cc.gameData.weixinUserInfo;  
-                // cc.ClientGuiCmd.PushClientGuiMsg(msgCmd); 
-
-                 cc.director.loadScene("login");  
+               
+                 cc.director.loadScene("login"); 
             }
             cc.WeixinSDK.WeixinGetUserInfo(getUserInfoFun); 
 

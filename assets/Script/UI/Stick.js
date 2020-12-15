@@ -1,4 +1,5 @@
 
+
 cc.Class({
     extends: cc.Component,
 
@@ -103,8 +104,12 @@ cc.Class({
         //  pMSg.ObjState = eObjState.eObjStand;       
         //  cc.MsgMgr.sendMsgToServer(10004,pMSg);  
 
-       
-
+        var msgData = {}
+        msgData.msgId = cc.eMsgId.eMsgUpdateState;        
+        msgData.MsgData =  cc.eEntityState.eESStand;
+        console.log("send server data ");
+        console.log(msgData);
+        cc.WeixinSDK.sendServerMsg(msgData);
     },
 
     onTouchCancelled:function(event)

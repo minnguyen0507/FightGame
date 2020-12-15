@@ -3,7 +3,7 @@ var WeixinSDK = cc.Class({
     properties: {
         roomMgr:null,
         cloudMgr:null,
-       
+        akfightFrame:null,       
     },
 
     getRoomMgr(){
@@ -41,6 +41,9 @@ var WeixinSDK = cc.Class({
 
     weiXinSDkInit(){
         // 实例化 Room 对象
+
+        this.akfightFrame = {};
+        
         const gameInfo = {
             gameId: 'obg-kd9fmh4m',
             secretKey: '893504c8ce8709776714d05de48c8d59b8efcb18',
@@ -54,7 +57,6 @@ var WeixinSDK = cc.Class({
             resendInterval: 1000,
             resendTimeout: 10000,
         };
-
         
         MGOBE.Listener.init(gameInfo, config, event => {
         if (event.code === MGOBE.ErrCode.EC_OK) {
@@ -67,7 +69,11 @@ var WeixinSDK = cc.Class({
 
                 this.roomMgr.onStartFrameSync = (event) => this.onStartFrameSync(event);
                 this.roomMgr.onStopFrameSync = (event) => this.onStopFrameSync(event);
-                this.roomMgr.onRecvFrame = (event) => this.onRecvFrame(event);                
+                this.roomMgr.onRecvFrame = (event) => this.onRecvFrame(event);  
+
+                if(cc.roomMgr === undefined){
+                     cc.roomMgr = this.roomMgr;
+                }               
                 
             }
         });
@@ -128,6 +134,24 @@ var WeixinSDK = cc.Class({
             });
     },
 
+    sendServerMsg(msgData){
+        if( cc.roomMgr){
+            var pSelf = this;
+            const sendFramePara = { data: msgData };
+
+            //这里返回是消息发送的结果
+            // --消息内容不会在这里返回
+            cc.roomMgr.sendFrame(sendFramePara, (event) =>function(event){
+                    if(event.code === 0){
+                                
+                    }else{
+                        console.log("发送失败回调。。。。");    
+                        console.log(sendFramePara)
+                    }     
+            });
+        }
+    },
+
     onMatch(event){
         console.log("监听匹配回调。。。。");
         console.log(event);
@@ -152,6 +176,20 @@ var WeixinSDK = cc.Class({
     onRecvFrame(event){
        // console.log("监听帧消息。。。。");
        // console.log(event)
+        var frame = event.data.frame;
+        var frameId = frame.id;
+        var akFrameInfos = frame.items;
+        if (akFrameInfos.length != 0){
+
+            this.akfightFrame[frameId] = akFrameInfos;
+
+            var infoNum = akFrameInfos.length;
+            for(var iloop=0;iloop<infoNum;iloop++) {
+                var frameInfo = akFrameInfos[iloop];
+                cc.ClientServerMsg.PushClientServerMsg(frameInfo);
+            }
+        }
+
     }, 
 
     onStopFrameSync(event){

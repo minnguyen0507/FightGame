@@ -1,7 +1,8 @@
 var eMsgId = cc.Enum({
     eMsgIdNull:0,
     eMsgUpdateState:1,
-    eMsgIdNum:2,
+    eMsgUnitDir:2,
+    eMsgIdNum:3,
 
 });
 
@@ -15,10 +16,15 @@ var cClientServerMsg = cc.Class({
 
     init(){
          this.MsgHandle[eMsgId.eMsgUpdateState] = this.onUpdateStateCall;
+         this.MsgHandle[eMsgId.eMsgUnitDir] = this.onUpdateUnitDirCall;
     },  
 
 
     onUpdateStateCall(msgData){
+
+    },
+
+    onUpdateUnitDirCall(msgData){
 
     }, 
 
@@ -26,12 +32,14 @@ var cClientServerMsg = cc.Class({
         if(this.akClientServerMsg.length > 0)
         {
             var clientServermsg = this.akClientServerMsg.shift();
-            this.DoHandleMsg(clientServermsg);
+            var playerId = clientServermsg.playerId;
+            var msgData = clientServermsg.data;
+            this.DoHandleMsg(msgData);
         }
 
     },
 
-    PushClientServerMsg:function(serverMSg){
+    PushClientServerMsg(serverMSg){
         this.akClientServerMsg.push(serverMSg)
     },
 
