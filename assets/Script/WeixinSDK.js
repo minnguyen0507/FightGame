@@ -143,7 +143,8 @@ var WeixinSDK = cc.Class({
             // --消息内容不会在这里返回
             cc.roomMgr.sendFrame(sendFramePara, (event) =>function(event){
                     if(event.code === 0){
-                                
+                        console.log("发送失败回调++++++0000");    
+                        console.log(event)    
                     }else{
                         console.log("发送失败回调。。。。");    
                         console.log(sendFramePara)

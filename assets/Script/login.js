@@ -16,7 +16,10 @@ cc.Class({
          //cc.ClientGuiCmd.registerClientGuiMsg("onLoginSuccess",this.onLoginSuccessCall,this);
 
          var msgdata = cc.gameData.weixinUserInfo;
-         this.setHeadIcon(msgdata.avatarUrl,msgdata.nickName); 
+         if (msgdata != undefined){
+            this.setHeadIcon(msgdata.avatarUrl,msgdata.nickName); 
+         }
+         
     },
 
 

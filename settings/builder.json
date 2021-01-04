@@ -7,7 +7,7 @@
     "upsideDown": false
   },
   "packageName": "org.cocos2d.helloworld",
-  "startScene": "2d2f792f-a40c-49bb-a189-ed176a246e49",
+  "startScene": "facc1a9c-1241-404b-8183-eb9f4d22940b",
   "title": "FightGame",
   "webOrientation": "auto",
   "inlineSpriteFrames": false,
