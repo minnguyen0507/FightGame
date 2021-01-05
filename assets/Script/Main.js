@@ -1,12 +1,11 @@
 
 var cWeixinSdk = require("WeixinSDK").WeixinSDK; 
-
 cc.gameData = require("gameData");
 var ClientGuiCmd = require("ClientGuiCmd").ClientGuiCmd;
-
 var cClientServerMsg = require("ClientServerMsg").cClientServerMsg;
-cc.eMsgId = require("ClientServerMsg").eMsgId
+cc.eMsgId = require("ClientServerMsg").eMsgId;
 cc.eEntityState = require("EnumDef").eEntityState;
+var cLogicMgr = require("LogicMgr").cLogicMgr;
 
 cc.Class({
     extends: cc.Component,
@@ -47,6 +46,12 @@ cc.Class({
             cc.gameEnumDef = {};
             cc.gameEnumDef.eEntityType = require("EnumDef").eEntityType;            
         }
+
+        if(cc.LogicMgr === undefined){
+            console.log("LogicMgr++++++++++++++++++++++++++++111")
+            cc.LogicMgr = new cLogicMgr;
+            cc.LogicMgr.initLogic();
+        } 
 
         this.initPhysics();        
 

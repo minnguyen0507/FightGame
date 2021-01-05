@@ -20,7 +20,7 @@ var cClientServerMsg = cc.Class({
     },  
 
 
-    onUpdateStateCall(msgData){
+    onUpdateStateCall(playerId,msgData){
 
         console.log("onUpdateStateCall+++++++++++++++++++++++++111")
         console.log(msgData)
@@ -28,7 +28,7 @@ var cClientServerMsg = cc.Class({
 
     },
 
-    onUpdateUnitDirCall(msgData){
+    onUpdateUnitDirCall(playerId,msgData){
 
         console.log("onUpdateUnitDirCall+++++++++++++++++++++++++222")
         console.log(msgData)
@@ -40,32 +40,24 @@ var cClientServerMsg = cc.Class({
         {
             var clientServermsg = this.akClientServerMsg.shift();
             var playerId = clientServermsg.playerId;
-            var msgData = clientServermsg.data;
-
-            console.log("++++++updateClientServerCmd+++++")
-            console.log(clientServermsg)
-            this.DoHandleMsg(msgData);
+            var msgData = clientServermsg.data;         
+            this.DoHandleMsg(playerId,msgData);
         }
 
     },
 
-    PushClientServerMsg(serverMSg){
-
-        console.log("++++++++PushClientServerMsg++++++++++1111  ")
-        console.log(serverMSg)
-
+    PushClientServerMsg(serverMSg){      
 
         this.akClientServerMsg.push(serverMSg)
     },
 
-    DoHandleMsg(MSgData)
+    DoHandleMsg(playerId,MSgData)
     {
-        console.log("++++++++DoHandleMsg+++++++++++++++++++++++1111")
+       
         var msgFun = this.MsgHandle[MSgData.msgId];       
         if(msgFun != null)
-        {
-            console.log("++++++++DoHandleMsg+++++++++++++++++++++++2222")
-            msgFun(MSgData.MsgData);
+        {           
+            msgFun(playerId,MSgData.MsgData);
         }
     },   
 

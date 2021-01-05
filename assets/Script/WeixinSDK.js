@@ -191,6 +191,9 @@ var WeixinSDK = cc.Class({
             }
         }
 
+        //逻辑帧驱动
+        cc.LogicMgr.updateFrame();
+
     }, 
 
     onStopFrameSync(event){

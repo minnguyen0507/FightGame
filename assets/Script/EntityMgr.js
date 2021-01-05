@@ -23,6 +23,13 @@ var EntityMgr = cc.Class({
             if (this.pMainPlayer != null){
                 this.pMainPlayer.destroy(); 
             }
+        },
+
+        //逻辑帧驱动
+        updateFrame(){
+              if (this.pMainPlayer != null){
+                this.pMainPlayer.Update();
+            }
         }
 
 
