@@ -1,5 +1,6 @@
 var enumEntityState = require("EnumDef").eEntityState;
 var cPropertyData = require("EntityPropertyData").cEntityPropertyData;
+var cRunState = require("State").cRunState;
 
 
 var cEntity = cc.Class({
@@ -10,8 +11,9 @@ var cEntity = cc.Class({
         m_entityType:0,
         m_pState:null,
         m_pUnitBody:null, 
-        m_pEntityPropertyData:null,    
-       // m_p
+        m_pEntityPropertyData:null,   
+        m_fDir:0, 
+
     },
 
   
@@ -40,6 +42,15 @@ var cEntity = cc.Class({
         rigidBody.active = true;      
         rigidBody.fixedRotation = true; 
         this.m_pUnitBody = rigidBody;
+        var tempState = new cRunState();
+
+        this.m_pState = tempState;
+        this.m_pState.Enter(this);
+      
+    },
+
+    getEntityPropertyData(){
+        return this.m_pEntityPropertyData;
     },
 
     onDestroy(){
@@ -51,7 +62,6 @@ var cEntity = cc.Class({
         {
            this.m_pUnitBody.destroy(); 
         }
-
     },
 
     ChangeState(pNewState){
@@ -66,7 +76,20 @@ var cEntity = cc.Class({
         if(this.m_pState) {
            this.m_pState.Execute(this) ;
         }
-    }
+    },
+
+    DoMove(vecMove)
+    {     
+        var linearVelocity = this.m_pUnitBody.linearVelocity;
+        var tempDes = vecMove.sub(linearVelocity);
+        var tempmass = this.m_pUnitBody.getMass();
+
+        var pcenterPos = this.m_pUnitBody.getWorldCenter();
+        tempmass = tempmass.toFixed(1);   
+        tempDes.x = tempmass * tempDes.x;
+        tempDes.y = tempmass * tempDes.y;
+        this.m_pUnitBody.applyLinearImpulse(tempDes,pcenterPos);           
+    }, 
    
 });
 
