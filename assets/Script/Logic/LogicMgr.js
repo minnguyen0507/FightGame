@@ -10,7 +10,7 @@ var cLogicMgr = cc.Class({
     getEntityMgr(){
         return this.m_pEntityMgr;
     },
-    
+
     initLogic(){
          this.m_pEntityMgr = new cEntityMgr();
     },
@@ -22,6 +22,8 @@ var cLogicMgr = cc.Class({
             this.m_pEntityMgr.updateFrame();
         } 
     },
+
+    
 
 });
 

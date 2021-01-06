@@ -25,6 +25,29 @@ var EntityMgr = cc.Class({
             }
         },
 
+        getEntityById(playerId){
+            // if (this.pMainPlayer.m_entityId == playerId){
+            //     return this.pMainPlayer;
+            // }
+            return this.pMainPlayer;
+        },
+
+        
+
+        changeEntityState(playerId,tempState){
+            var tempEntity = this.getEntityById(playerId);
+            if(tempEntity != null){
+                tempEntity.DoChangeState(tempState)
+            }
+        },
+
+        changeEntityDir(playerId,fDir){
+            var tempEntity = this.getEntityById(playerId);
+            if(tempEntity != null){
+                tempEntity.DoChangeDir(fDir)
+            }
+        },
+
         //逻辑帧驱动
         updateFrame(){
               if (this.pMainPlayer != null){

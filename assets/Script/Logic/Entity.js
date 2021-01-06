@@ -1,6 +1,7 @@
 var enumEntityState = require("EnumDef").eEntityState;
 var cPropertyData = require("EntityPropertyData").cEntityPropertyData;
 var cRunState = require("State").cRunState;
+var cStandState = require("State").cStandState;
 
 
 var cEntity = cc.Class({
@@ -10,6 +11,7 @@ var cEntity = cc.Class({
         m_entityId:0,
         m_entityType:0,
         m_pState:null,
+        m_curtState:0,
         m_pUnitBody:null, 
         m_pEntityPropertyData:null,   
         m_fDir:0, 
@@ -42,8 +44,8 @@ var cEntity = cc.Class({
         rigidBody.active = true;      
         rigidBody.fixedRotation = true; 
         this.m_pUnitBody = rigidBody;
-        var tempState = new cRunState();
-
+        var tempState = new cStandState();
+        this.m_curtState = cc.eEntityState.eESStand;
         this.m_pState = tempState;
         this.m_pState.Enter(this);
       
@@ -51,6 +53,10 @@ var cEntity = cc.Class({
 
     getEntityPropertyData(){
         return this.m_pEntityPropertyData;
+    },
+
+    isInState(tempState){
+        return (tempState== this.m_curtState);
     },
 
     onDestroy(){
@@ -63,6 +69,8 @@ var cEntity = cc.Class({
            this.m_pUnitBody.destroy(); 
         }
     },
+
+
 
     ChangeState(pNewState){
 
@@ -90,6 +98,22 @@ var cEntity = cc.Class({
         tempDes.y = tempmass * tempDes.y;
         this.m_pUnitBody.applyLinearImpulse(tempDes,pcenterPos);           
     }, 
+
+    DoChangeState(tempState){
+
+        this.m_curtState = tempState;
+        if(tempState == cc.eEntityState.eESStand) {
+            var tempState = new cStandState();
+            this.ChangeState(tempState);
+        }else if(tempState == cc.eEntityState.eESMove ){
+            var tempState = new cRunState();
+            this.ChangeState(tempState);
+        }
+    },
+
+    DoChangeDir(fDir){
+        this.m_fDir = fDir;
+    },
    
 });
 

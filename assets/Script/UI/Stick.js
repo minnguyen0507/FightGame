@@ -10,6 +10,7 @@ cc.Class({
         pStickCenter:null,
         m_fAngle:0,    
         m_fOldAngle:0,
+        m_pMainPlayer:null,
     },
 
     start () {
@@ -22,7 +23,9 @@ cc.Class({
         this.node.on(cc.Node.EventType.TOUCH_MOVE, this.onTouchMoved,this);
         this.node.on(cc.Node.EventType.TOUCH_END, this.onTouchEnded,this);
         this.node.on(cc.Node.EventType.TOUCH_CANCEL, this.onTouchCancelled,this);
-        this.stickBGPosition = cc.v2(0,0);       
+        this.stickBGPosition = cc.v2(0,0);     
+
+        this.m_pMainPlayer = cc.LogicMgr.getEntityMgr().pMainPlayer;  
     },
     getAnglePosition:function(r,angle)
     {
@@ -74,20 +77,12 @@ cc.Class({
         this.m_fAngle = angle;
        // cc.log("this.m_fAngle move+++   " + this.m_fAngle);
         this.updateArrow();
-
-        //  if(this.m_pMyBojView != null)
-        // {
-        //     var eState = this.m_pMyBojView.m_objlogic.m_objState;
-        //     if(eState != eObjState.eObjWalk)
-        //     {
-        //         var pMSg = cc.MsgMgr.CreateMsgByID(10004);
-        //         pMSg.objLogicID = this.m_pMyBojView.m_iObjId;
-        //         pMSg.ObjState = eObjState.eObjWalk;       
-        //         cc.MsgMgr.sendMsgToServer(10004,pMSg);
-        //     }           
-        // }      
-         
-
+        if (this.m_pMainPlayer.isInState(cc.eEntityState.eESStand)){
+            var msgData = {}
+            msgData.msgId = cc.eMsgId.eMsgUpdateState;        
+            msgData.MsgData =  cc.eEntityState.eESMove;      
+            cc.WeixinSDK.sendServerMsg(msgData);  
+        }  
     },
 
     onTouchEnded:function(event)
@@ -97,18 +92,11 @@ cc.Class({
         this.pStickCenter.stopAllActions();
         this.pStickCenter.runAction(cc.moveTo(0.08, this.stickBGPosition));
         //this.m_fAngle = 0.0;
-        this.m_pArrow.active = false;    
-
-        //  var pMSg = cc.MsgMgr.CreateMsgByID(10004);
-        //  pMSg.objLogicID = this.m_pMyBojView.m_iObjId;
-        //  pMSg.ObjState = eObjState.eObjStand;       
-        //  cc.MsgMgr.sendMsgToServer(10004,pMSg);  
+        this.m_pArrow.active = false;        
 
         var msgData = {}
         msgData.msgId = cc.eMsgId.eMsgUpdateState;        
-        msgData.MsgData =  cc.eEntityState.eESStand;
-        console.log("send server data ");
-        console.log(msgData);
+        msgData.MsgData =  cc.eEntityState.eESStand;      
         cc.WeixinSDK.sendServerMsg(msgData);
     },
 
@@ -133,12 +121,11 @@ cc.Class({
         var nowAngle = this.m_fAngle.toFixed(2);
         if(this.m_fOldAngle != nowAngle)
         {
-            this.m_fOldAngle = nowAngle;  
-
-            //  var pMSg = cc.MsgMgr.CreateMsgByID(10003);
-            // pMSg.objLogicID = this.m_pMyBojView.m_iObjId;
-            // pMSg.fDir = this.m_fOldAngle;       
-            // cc.MsgMgr.sendMsgToServer(10003,pMSg);          
+            this.m_fOldAngle = nowAngle;             
+            var msgData = {}
+            msgData.msgId = cc.eMsgId.eMsgUnitDir;        
+            msgData.MsgData =  nowAngle;       
+            cc.WeixinSDK.sendServerMsg(msgData);        
         }      
     },
 });

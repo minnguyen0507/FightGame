@@ -24,15 +24,16 @@ var cClientServerMsg = cc.Class({
 
         console.log("onUpdateStateCall+++++++++++++++++++++++++111")
         console.log(msgData)
-        
-
+        var EntityMgr = cc.LogicMgr.getEntityMgr();
+        EntityMgr.changeEntityState(playerId,msgData);
     },
 
     onUpdateUnitDirCall(playerId,msgData){
 
         console.log("onUpdateUnitDirCall+++++++++++++++++++++++++222")
         console.log(msgData)
-
+        var EntityMgr = cc.LogicMgr.getEntityMgr();
+        EntityMgr.changeEntityDir(playerId,msgData);
     }, 
 
      updateClientServerCmd(dt){
