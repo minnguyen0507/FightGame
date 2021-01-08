@@ -36,7 +36,7 @@ var cEntity = cc.Class({
             var newNode = cc.instantiate(prefab);
             var headIcon = newNode.getChildByName("headIcon");
             cc.FunctionHelp.setHeadIcon(headIcon,"");  
-            headIcon.Scale = 0.6;
+            headIcon.scale = 0.5;
             newNode.name = "ObjBody";
             pSelf.addChild(newNode);
             pSelf.initEnd();
@@ -46,8 +46,7 @@ var cEntity = cc.Class({
 
     initEnd(){
         var rigidBody = this.addComponent(cc.RigidBody);
-        console.log("rigidBody++++++++data ");
-        console.log(rigidBody);      
+      
         rigidBody.linearDamping = 1;
         rigidBody.active = true;      
         rigidBody.fixedRotation = true; 
@@ -114,23 +113,15 @@ var cEntity = cc.Class({
         tempDes.y = tempmass * tempDes.y;
         
         if (!this.m_oldMoveForce.equals(tempDes) ){
-
-            console.log(linearVelocity)
-            console.log("+++++++++++++++entity Do move+++++++++111 ")
-            console.log(tempDes)
-
             this.m_oldMoveForce = tempDes;
-            this.m_pUnitBody.applyLinearImpulse(tempDes,pcenterPos);
-
-           
+            this.m_pUnitBody.applyLinearImpulse(tempDes,pcenterPos);           
         }         
 
         //this.m_pUnitBody.applyForce(tempDes,pcenterPos);      
     }, 
 
     DoStand(){
-
-      // console.log(this.getPosition())
+       // console.log(this.getPosition())
        // this.m_pUnitBody.linearVelocity.x = 0;
        // this.m_pUnitBody.linearVelocity.y = 0;
        // this.m_pUnitBody.linearVelocity.z = 0;
