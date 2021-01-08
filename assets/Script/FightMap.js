@@ -12,6 +12,8 @@ cc.Class({
 
      onLoad () {
             this.m_pMap = this.node.getChildByName("FightMap");  
+
+          //  this.m_pMainCamera = this.m_pMap.getChildByName("MapCamera"); 
             this.m_pTempEntityMgr = cc.LogicMgr.getEntityMgr();
 
      },
@@ -37,8 +39,9 @@ cc.Class({
 
     update (dt) {
         var mainPlayer = this.m_pTempEntityMgr.pMainPlayer;
-        var mainPos = mainPlayer.getPosition();
+        var mainPos = mainPlayer.getPosition();       
         this.m_pMap.setPosition(-mainPos.x,-mainPos.y);
+        mainPlayer.syncPosition();
     },
 
     onDestroy(){        

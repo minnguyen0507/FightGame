@@ -15,18 +15,23 @@ var cEntity = cc.Class({
         m_pUnitBody:null, 
         m_pEntityPropertyData:null,   
         m_fDir:0, 
-
+        m_oldMoveForce:null,
     },
 
   
     init(entityType,unitId) {
+
+        console.log("Entity init++++++++++++++++++++++=1111");
        
         this.m_entityId             = unitId;
         this.m_entityType           = entityType;
         this.m_pEntityPropertyData  = new cPropertyData();
+        this.name = "mainPlayer";
+
+        this.m_oldMoveForce = cc.v2(0,0);
+        
         var pSelf= this;
 
-        
         cc.resources.load("UiPrefab/Unit", function (err, prefab) {
             var newNode = cc.instantiate(prefab);
             var headIcon = newNode.getChildByName("headIcon");
@@ -41,9 +46,14 @@ var cEntity = cc.Class({
 
     initEnd(){
         var rigidBody = this.addComponent(cc.RigidBody);
+        console.log("rigidBody++++++++data ");
+        console.log(rigidBody);      
+        rigidBody.linearDamping = 1;
         rigidBody.active = true;      
         rigidBody.fixedRotation = true; 
         this.m_pUnitBody = rigidBody;
+        
+
         var tempState = new cStandState();
         this.m_curtState = cc.eEntityState.eESStand;
         this.m_pState = tempState;
@@ -70,6 +80,11 @@ var cEntity = cc.Class({
         }
     },
 
+    syncPosition(){
+        if(this.m_pUnitBody) {
+            this.m_pUnitBody.syncPosition(false);
+        }
+    },
 
 
     ChangeState(pNewState){
@@ -83,12 +98,13 @@ var cEntity = cc.Class({
     Update(){
         if(this.m_pState) {
            this.m_pState.Execute(this) ;
-        }
+        }     
     },
 
     DoMove(vecMove)
-    {     
-        var linearVelocity = this.m_pUnitBody.linearVelocity;
+    {           
+        var linearVelocity = this.m_pUnitBody.linearVelocity;     
+
         var tempDes = vecMove.sub(linearVelocity);
         var tempmass = this.m_pUnitBody.getMass();
 
@@ -96,8 +112,29 @@ var cEntity = cc.Class({
         tempmass = tempmass.toFixed(1);   
         tempDes.x = tempmass * tempDes.x;
         tempDes.y = tempmass * tempDes.y;
-        this.m_pUnitBody.applyLinearImpulse(tempDes,pcenterPos);           
+        
+        if (!this.m_oldMoveForce.equals(tempDes) ){
+
+            console.log(linearVelocity)
+            console.log("+++++++++++++++entity Do move+++++++++111 ")
+            console.log(tempDes)
+
+            this.m_oldMoveForce = tempDes;
+            this.m_pUnitBody.applyLinearImpulse(tempDes,pcenterPos);
+
+           
+        }         
+
+        //this.m_pUnitBody.applyForce(tempDes,pcenterPos);      
     }, 
+
+    DoStand(){
+
+      // console.log(this.getPosition())
+       // this.m_pUnitBody.linearVelocity.x = 0;
+       // this.m_pUnitBody.linearVelocity.y = 0;
+       // this.m_pUnitBody.linearVelocity.z = 0;
+    },
 
     DoChangeState(tempState){
 

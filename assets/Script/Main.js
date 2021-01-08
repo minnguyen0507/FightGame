@@ -103,13 +103,13 @@ cc.Class({
         //物理系统
         var manager = cc.director.getPhysicsManager();
         manager.enabled = true;
-        //    manager.debugDrawFlags = cc.PhysicsManager.DrawBits.e_aabbBit |
-        //      cc.PhysicsManager.DrawBits.e_pairBit |
-        //      cc.PhysicsManager.DrawBits.e_centerOfMassBit |
-        //      cc.PhysicsManager.DrawBits.e_jointBit |
-        //      cc.PhysicsManager.DrawBits.e_shapeBit
-        //      ;
-        manager.debugDrawFlags = 0;
+            manager.debugDrawFlags = cc.PhysicsManager.DrawBits.e_aabbBit |
+              cc.PhysicsManager.DrawBits.e_pairBit |
+              cc.PhysicsManager.DrawBits.e_centerOfMassBit |
+              cc.PhysicsManager.DrawBits.e_jointBit |
+              cc.PhysicsManager.DrawBits.e_shapeBit
+              ;
+       // manager.debugDrawFlags = 0;
         //重力加速度
         cc.director.getPhysicsManager().gravity = cc.v2(0,0);
 

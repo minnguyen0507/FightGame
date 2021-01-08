@@ -175,7 +175,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        0,
+        -2.543,
         0,
         526.5434455009387,
         0,
@@ -208,7 +208,7 @@
       "__id__": 3
     },
     "_enabled": true,
-    "_cullingMask": 4294967295,
+    "_cullingMask": -3,
     "_clearFlags": 7,
     "_backgroundColor": {
       "__type__": "cc.Color",
@@ -700,6 +700,7 @@
     "pStickCenter": null,
     "m_fAngle": 0,
     "m_fOldAngle": 0,
+    "m_pMainPlayer": null,
     "_id": "6cDNZBijNFOpuvXPDmc3NA"
   },
   {
@@ -782,8 +783,8 @@
     },
     "_enabled": true,
     "m_pMap": null,
-    "m_pEntityMgr": null,
     "m_startPos": null,
+    "m_pTempEntityMgr": null,
     "_id": "f0on8hohdE+4Ca88fvsxaQ"
   }
 ]

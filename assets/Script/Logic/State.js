@@ -37,7 +37,7 @@ var cRunState = cc.Class({
    },
 
    Exit(pEntity){
-         console.log("cRunState state Exit......")
+         console.log("cRunState state Exit......");
    },
   
 });
@@ -48,15 +48,17 @@ var cStandState = cc.Class({
 
 
    Enter(pEntity){
-    console.log("cStandState state Enter......")
+    console.log("cStandState state Enter......");
    },
 
    Execute(pEntity){
+      // console.log("cStandState +++++++++   Execute ");
         pEntity.DoMove(cc.v2(0,0));
+        pEntity.DoStand();
    },
 
    Exit(pEntity){
-        console.log("cStandState state Exit......")
+        console.log("cStandState state Exit......");
    },  
 });
 

@@ -3,7 +3,7 @@ var cEntityPropertyData = cc.Class({
    
     properties: {
 
-        m_iMoveSpeed:1,
+        m_iMoveSpeed:30,
         
     },
 
