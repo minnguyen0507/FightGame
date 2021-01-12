@@ -23,6 +23,12 @@ cc.Class({
 
     start () {
 
+         var tempStr = '{"avatarUrl":"https://thirdwx.qlogo.cn/mmopen/vi_32/WofAA2NyAvp8Rq2LSldLX9v7ibLSavUOpS1SpGhAAB8rtvgDgFw5KMb5A6gC0F9WDL6CATZoKsDiaJFGrDrCOs2A/132","openid":"oqpgn47yOcP_mUcJ2lYtjOVjly14"}';
+
+         var tempObj = JSON.parse(tempStr);
+         console.log(tempObj);
+         console.log(tempObj.avatarUrl);
+
             
         cc.game.addPersistRootNode(this.node);
         if(cc.FunctionHelp == null)

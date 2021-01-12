@@ -116,8 +116,6 @@ var cEntity = cc.Class({
             this.m_oldMoveForce = tempDes;
             this.m_pUnitBody.applyLinearImpulse(tempDes,pcenterPos);           
         }         
-
-        //this.m_pUnitBody.applyForce(tempDes,pcenterPos);      
     }, 
 
     DoStand(){

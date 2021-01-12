@@ -49,6 +49,8 @@ cc.Class({
         console.log(event);
         if (event.code === 0) {
             console.log("开始帧同步成功");
+             cc.LogicMgr.clearFrames();
+             cc.LogicMgr.setLogicRoomDefauleInfo(this.roomInfo);
         }
     },
 
@@ -75,8 +77,15 @@ cc.Class({
             var tempIndex = Number(key) + 1;
             var headNodeStr = "Camp1HeadNode" + tempIndex;        
             var headNode = pSelf.headRootLayer.getChildByName(headNodeStr);
-            
-            cc.FunctionHelp.setHeadIcon(headNode,tempPlayer.customProfile);    
+            console.log(tempPlayer.customProfile);
+            var tempheadStr= "";
+
+            if(tempPlayer.customProfile != ""){
+                var userInfoStr = tempPlayer.customProfile;
+                var tempObj = JSON.parse(userInfoStr);//这里要注意 JSON.parse 转化函数对字符串有格式的要求
+                tempheadStr = tempObj.avatarUrl 
+            }       
+            cc.FunctionHelp.setHeadIcon(headNode,tempheadStr);    
         }
 
         for(var key in akCamp2Players) {
@@ -85,7 +94,14 @@ cc.Class({
             var headNodeStr = "Camp2HeadNode" + tempIndex;
             var headNode = pSelf.headRootLayer.getChildByName(headNodeStr);
             
-            cc.FunctionHelp.setHeadIcon(headNode,tempPlayer.customProfile);    
+            console.log(tempPlayer.customProfile);
+             var tempheadStr= "";
+            if(tempPlayer.customProfile != "" ) {
+                var userInfoStr = tempPlayer.customProfile;  
+                var tempObj = JSON.parse(userInfoStr);  
+                tempheadStr = tempObj.avatarUrl 
+            }                  
+            cc.FunctionHelp.setHeadIcon(headNode,tempheadStr);   
         }
     },
 

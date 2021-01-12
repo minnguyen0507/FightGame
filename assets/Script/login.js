@@ -57,13 +57,20 @@ cc.Class({
 
         var userinfo = cc.gameData.weixinUserInfo;
 
+        var tempObj ={}
+        console.log(userinfo.avatarUrl);
+        tempObj.avatarUrl = userinfo.avatarUrl;
+        tempObj.openid = cc.gameData.openid;
+
+        var tempobjstr = JSON.stringify(tempObj)
+
         const playerInfo = {
                 name: userinfo.nickName,
                 customPlayerStatus: 1,
-                customProfile: userinfo.avatarUrl,
+                customProfile: tempobjstr,   
                 matchAttributes: [{
-                    name: "skill1",
-                    value: 99,
+                    name: "skill",
+                    value: 1,
                 }]
             };
 

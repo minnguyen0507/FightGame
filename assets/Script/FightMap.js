@@ -1,6 +1,5 @@
 
 
-
 cc.Class({
     extends: cc.Component,
 
@@ -12,8 +11,7 @@ cc.Class({
 
      onLoad () {
             this.m_pMap = this.node.getChildByName("FightMap");  
-
-          //  this.m_pMainCamera = this.m_pMap.getChildByName("MapCamera"); 
+  
             this.m_pTempEntityMgr = cc.LogicMgr.getEntityMgr();
 
      },
@@ -22,6 +20,9 @@ cc.Class({
         var pSelf = this;
         this.initMapPos();      
         var winsize = cc.director.getWinSize();  
+
+        var playersInitInfo = cc.LogicMgr.getFrameInitPlayers();
+        
         var tempEntity = this.m_pTempEntityMgr.createEntity(cc.gameEnumDef.eEntityType.eETMainPlayer,0);
         pSelf.m_pMap.addChild(tempEntity);
         tempEntity.setPosition(winsize.width/2,winsize.height/2);

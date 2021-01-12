@@ -2,8 +2,7 @@ var WeixinSDK = cc.Class({
 
     properties: {
         roomMgr:null,
-        cloudMgr:null,
-        akfightFrame:null,       
+        cloudMgr:null,       
     },
 
     getRoomMgr(){
@@ -30,9 +29,7 @@ var WeixinSDK = cc.Class({
                 });
             }
         }else{
-            //其他登陆默认成功
-
-           
+            //其他登陆默认成功           
             var obj = {};
             obj.openid = 0;
             sucFun(obj);
@@ -40,9 +37,7 @@ var WeixinSDK = cc.Class({
     },
 
     weiXinSDkInit(){
-        // 实例化 Room 对象
-
-        this.akfightFrame = {};
+        // 实例化 Room 对象     
         
         const gameInfo = {
             gameId: 'obg-kd9fmh4m',
@@ -179,10 +174,13 @@ var WeixinSDK = cc.Class({
        // console.log(event)
         var frame = event.data.frame;
         var frameId = frame.id;
+        if(frameId === 1) {
+            cc.LogicMgr.setDefauleFrameState();
+        }
+
+        cc.LogicMgr.pushFrame(frame);
         var akFrameInfos = frame.items;
         if (akFrameInfos.length != 0){
-
-            this.akfightFrame[frameId] = akFrameInfos;
 
             var infoNum = akFrameInfos.length;
             for(var iloop=0;iloop<infoNum;iloop++) {
