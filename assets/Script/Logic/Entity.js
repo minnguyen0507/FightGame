@@ -16,6 +16,8 @@ var cEntity = cc.Class({
         m_pEntityPropertyData:null,   
         m_fDir:0, 
         m_oldMoveForce:null,
+        //局外传来的数据
+        m_pServerPlayerData:null,
     },
 
   
@@ -26,7 +28,7 @@ var cEntity = cc.Class({
         this.m_entityId             = unitId;
         this.m_entityType           = entityType;
         this.m_pEntityPropertyData  = new cPropertyData();
-        this.name = "mainPlayer";
+        
 
         this.m_oldMoveForce = cc.v2(0,0);
         
@@ -43,10 +45,20 @@ var cEntity = cc.Class({
         });            
     },
 
+    initPlayerData(playerData){
+        this.m_pServerPlayerData = playerData;
+    },
+
 
     initEnd(){
+        var nameStr = "NodePlayer" + this.m_pServerPlayerData.id;
+        this.name = nameStr;
+
+        var unitNode = this.getChildByName("ObjBody");
+        var unitNameNode = unitNode.getChildByName("UnitName"); 
+        unitNameNode.getComponent(cc.Label).string = this.m_pServerPlayerData.kName;
+
         var rigidBody = this.addComponent(cc.RigidBody);
-      
         rigidBody.linearDamping = 1;
         rigidBody.active = true;      
         rigidBody.fixedRotation = true; 

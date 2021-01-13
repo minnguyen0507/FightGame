@@ -35,24 +35,25 @@ cc.Class({
         var pSelf = this;
         if (pSelf.count === 21) {                
             this.unschedule(this.timeCallBack);
-            cc.director.loadScene("fight");
-            //开始同步帧
-            pSelf.roomMgr.startFrameSync({}, (event) =>pSelf.onStartFrameSync(event));
+             //开始同步帧
+           // pSelf.roomMgr.startFrameSync({}, (event) =>pSelf.onStartFrameSync(event)); 
+            pSelf.roomMgr.startFrameSync({},function(event){});          
         }           
         pSelf.count++;   
         var  strTemp = 21 -  pSelf.count;      
         this.startTimeGo.string = strTemp;
     },
 
-    onStartFrameSync(event){
-        console.log("+++++++++onStartFrameSync++++++++++++");
-        console.log(event);
-        if (event.code === 0) {
-            console.log("开始帧同步成功");
-             cc.LogicMgr.clearFrames();
-             cc.LogicMgr.setLogicRoomDefauleInfo(this.roomInfo);
-        }
-    },
+    // onStartFrameSync(event){
+       
+    //     var pSelf = this;
+    //     if (event.code === 0) {
+    //         console.log("开始帧同步成功");
+    //          cc.LogicMgr.clearFrames();
+    //          cc.LogicMgr.setLogicRoomDefauleInfo(pSelf.roomInfo);   
+    //          cc.director.loadScene("fight");
+    //     }
+    // },
 
     initRoomUi(){
         var pSelf = this;

@@ -24,6 +24,8 @@ var cLogicMgr = cc.Class({
 
     setLogicRoomDefauleInfo(roomInitInfo){
         this.m_kRoomInfo = roomInitInfo;
+
+        console.log(this.m_kRoomInfo);
     },
 
     pushFrame(frameInfo){
@@ -43,6 +45,9 @@ var cLogicMgr = cc.Class({
 
     //战斗开始初始状态
     setDefauleFrameState(){
+
+        console.log(this.m_kRoomInfo)
+
         var playerList = this.m_kRoomInfo.playerList;
 
         for(var iloop=0;iloop<playerList.length;iloop++) {
@@ -50,6 +55,13 @@ var cLogicMgr = cc.Class({
             var kPlayerInfo = {};
             kPlayerInfo.id = playRoomInfo.id;
             kPlayerInfo.kName = playRoomInfo.name;
+            kPlayerInfo.isRobot = playRoomInfo.isRobot;
+            if(kPlayerInfo.isRobot == false) {
+                //自定义数据
+                var userInfoObj = JSON.parse(playRoomInfo.customProfile);
+                kPlayerInfo.avatarUrl = userInfoObj.avatarUrl;
+                kPlayerInfo.openid = userInfoObj.openid;
+            }
             this.m_akFrameInitPlayerInfo.push(kPlayerInfo);
         }
         
@@ -57,6 +69,15 @@ var cLogicMgr = cc.Class({
 
     getFrameInitPlayers(){
         return this.m_akFrameInitPlayerInfo;
+    },
+
+    isMainPlyer(playOpenId){
+
+        console.log("isMainPlayer++++++++++++++++++1111");
+        console.log(playOpenId);
+        console.log(cc.gameData.openid);
+
+        return (cc.gameData.openid===playOpenId);
     },
 
 

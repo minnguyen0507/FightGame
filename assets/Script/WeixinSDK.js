@@ -167,6 +167,15 @@ var WeixinSDK = cc.Class({
     onStartFrameSync(event){
         console.log("监听帧同步开始。。。。");
         console.log(event)
+         if (cc.WeixinSDK != null){
+            var roomMgr = cc.WeixinSDK.getRoomMgr();
+            if (roomMgr != null){               
+                var roomInfo = roomMgr.roomInfo;
+                cc.LogicMgr.clearFrames();
+                cc.LogicMgr.setLogicRoomDefauleInfo(roomInfo);   
+                cc.director.loadScene("fight");               
+            }
+        }       
     },
 
     onRecvFrame(event){
@@ -174,6 +183,12 @@ var WeixinSDK = cc.Class({
        // console.log(event)
         var frame = event.data.frame;
         var frameId = frame.id;
+
+        if(frameId <10){
+            console.log("监听帧消息。。。。");
+            console.log(event);
+        } 
+       
         if(frameId === 1) {
             cc.LogicMgr.setDefauleFrameState();
         }
