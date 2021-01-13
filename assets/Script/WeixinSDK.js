@@ -172,8 +172,7 @@ var WeixinSDK = cc.Class({
             if (roomMgr != null){               
                 var roomInfo = roomMgr.roomInfo;
                 cc.LogicMgr.clearFrames();
-                cc.LogicMgr.setLogicRoomDefauleInfo(roomInfo);   
-                cc.director.loadScene("fight");               
+                cc.LogicMgr.setLogicRoomDefauleInfo(roomInfo);                           
             }
         }       
     },
@@ -191,6 +190,7 @@ var WeixinSDK = cc.Class({
        
         if(frameId === 1) {
             cc.LogicMgr.setDefauleFrameState();
+            cc.director.loadScene("fight");     
         }
 
         cc.LogicMgr.pushFrame(frame);

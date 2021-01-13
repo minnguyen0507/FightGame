@@ -20,6 +20,7 @@ var EntityMgr = cc.Class({
             {
                 console.log("createEntity++++++++++++++++  ");
                 console.log(unitId);
+                console.log(tempEntity);
                 this.akPlayerMap.push(tempEntity);
             }
            
@@ -32,18 +33,19 @@ var EntityMgr = cc.Class({
             }
         },
 
-        getEntityById(playerId){
-
-
+        getEntityById(playerId){            
              if (this.pMainPlayer.m_entityId === playerId){
+                
                  return this.pMainPlayer;
              }
-             this.akPlayerMap.forEach(function(element) {
-                 if(element.m_entityId === playerId ){
-                     return element
+             console.log(this.akPlayerMap);
+             var tempIndex = -1;
+             this.akPlayerMap.forEach(function(element,index) {
+                 if(element.m_entityId === playerId ){                   
+                     tempIndex = index;                   
                  }                 
              }, this);
-             return null;           
+             return this.akPlayerMap[tempIndex];      
         },  
 
         syncPosition(){
@@ -54,11 +56,9 @@ var EntityMgr = cc.Class({
         },      
 
         changeEntityState(playerId,tempState){
-
-            console.log("changeEntityState++++++++++++++++  ");
-            console.log(playerId);
+          
             var tempEntity = this.getEntityById(playerId);
-            if(tempEntity != null){
+            if(tempEntity != null){               
                 tempEntity.DoChangeState(tempState)
             }
         },
@@ -75,7 +75,7 @@ var EntityMgr = cc.Class({
             if (this.pMainPlayer != null){
                 this.pMainPlayer.Update();
             }
-            this.akPlayerMap.forEach(function(element) {
+            this.akPlayerMap.forEach(function(element) {                
                 element.Update();              
             }, this);
         }

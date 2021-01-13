@@ -125,6 +125,7 @@ var cEntity = cc.Class({
         tempDes.y = tempmass * tempDes.y;
         
         if (!this.m_oldMoveForce.equals(tempDes) ){
+           
             this.m_oldMoveForce = tempDes;
             this.m_pUnitBody.applyLinearImpulse(tempDes,pcenterPos);           
         }         
@@ -137,8 +138,8 @@ var cEntity = cc.Class({
        // this.m_pUnitBody.linearVelocity.z = 0;
     },
 
-    DoChangeState(tempState){
-
+    DoChangeState(tempState){      
+        
         this.m_curtState = tempState;
         if(tempState == cc.eEntityState.eESStand) {
             var tempState = new cStandState();

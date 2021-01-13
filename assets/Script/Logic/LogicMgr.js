@@ -71,11 +71,7 @@ var cLogicMgr = cc.Class({
         return this.m_akFrameInitPlayerInfo;
     },
 
-    isMainPlyer(playOpenId){
-
-        console.log("isMainPlayer++++++++++++++++++1111");
-        console.log(playOpenId);
-        console.log(cc.gameData.openid);
+    isMainPlyer(playOpenId){      
 
         return (cc.gameData.openid===playOpenId);
     },
